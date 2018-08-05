@@ -63,6 +63,33 @@ module.exports.users = (data, cb) => {
 	}
 }
 
+const _tokens = {
+	get({query}, cb) {
+		if ( _data.exist("tokens", query.id) )
+		{
+			_data.read("tokens", query.id)
+				.then(res => {
+					delete res.password
+					cb(200, res)
+				})
+		}
+		else
+		{
+			cb(404, {err: "users not exist"})
+		}
+	},
+}
+
+module.exports.tokens = (data, cb) => {
+	if ( ["GET", "POST", "PUT", "DELETE"].includes(data.method.toUpperCase()))
+	{
+		_users[data.method.toLowerCase()](data, cb)
+	}
+	else {
+		cb(405, {err: "method not found"})
+	}
+}
+
 module.exports.notFound = (data, cb) => {
 	cb(404, {err: "Not found"})
 }
