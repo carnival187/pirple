@@ -1,0 +1,23 @@
+{
+  "name": "pirple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon homework#2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carnival187/pirple.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carnival187/pirple/issues"
+  },
+  "homepage": "https://github.com/carnival187/pirple#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}

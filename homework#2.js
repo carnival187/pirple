@@ -1,16 +1,23 @@
 const http = require("http")
 const url = require("url")
-const fs = require('fs')
 const StringDecoder = require('string_decoder').StringDecoder
 const handlers = require("./handlers")
+const _data = require("./data")
 
-const router = {
-
+const parseJson = str => {
+	try
+	{
+		return JSON.parse(str)
+	}
+	catch(e)
+	{
+		return {}
+	}
 }
+
 const server = http.createServer( (req, res) => {
 	const URL = url.parse(req.url, true)
 	const pathname = URL.pathname.replace(/^\/+|\/+$/g, '')
-	const q = URL.query
 	const decoder = new StringDecoder("utf-8")
 
 	let buffer = ""
@@ -18,10 +25,10 @@ const server = http.createServer( (req, res) => {
 		buffer += decoder.write(data)
 	})
 	req.on("end", () => {
+		const body = parseJson(buffer)
+		console.log({body})
 		const handler = pathname in handlers ? handlers[pathname] : handlers.notFound
-
-		handler(buffer, (status = 200, payload = {}) => {
-
+		handler({query: URL.query, body, method: req.method}, (status = 200, payload = {}) => {
 			res.setHeader('Content-Type', 'application/json')
 			res.writeHead(status)
 			res.end(JSON.stringify(payload))
